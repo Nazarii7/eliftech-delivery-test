@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const orderShema = new mongoose.Schema({
+const OrderShema = new Schema({
   name: String,
   email: String,
   phone: String,
@@ -18,12 +18,4 @@ const orderShema = new mongoose.Schema({
   ],
 });
 
-orderShema.set("toJSON", {
-  transform: (document, returnedObj) => {
-    returnedObj.id = returnedObj._id.toString();
-    delete returnedObj._id;
-    delete returnedObj.__v;
-  },
-});
-
-module.exports = mongoose.model("Order", orderShema);
+module.exports = model("Order", OrderShema);

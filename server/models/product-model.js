@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const productSchema = new mongoose.Schema({
+const ProductSchema = new Schema({
   id: String,
   shopId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Shop",
     required: true,
   },
@@ -12,12 +12,4 @@ const productSchema = new mongoose.Schema({
   price: Number,
 });
 
-productSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
-module.exports = mongoose.model("Product", productSchema);
+module.exports = model("Product", ProductSchema);
