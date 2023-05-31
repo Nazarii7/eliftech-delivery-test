@@ -1,8 +1,13 @@
-import { Input, Label, Button, Error } from "./OrderForm.styled";
+import { Input, Label, Error } from "./OrderForm.styled";
+import Button from "../SubmitButton/SubmitButton";
 import { useEffect } from "react";
+import { useAppDispatch } from "../../hooks/useDispatch";
+import { setFormData } from "../../redux/reducers/fromReducer";
 import useInput from "../../hooks/useInput";
 
 const OrderForm = () => {
+  ///logical for Form
+  const dispatch = useAppDispatch();
   const name = useInput("", {
     isEmpty: true,
     minLength: 3,
@@ -36,9 +41,9 @@ const OrderForm = () => {
       phone: phone.value || "",
       address: address.value || "",
     };
-    //    const isValid = !email.isValid || !phone.isValid || !address.isValid;
-    //    dispatch(setFormData({ formData, isValid }));
-  }, [name, email, phone, address]);
+    const isValid = !email.isValid || !phone.isValid || !address.isValid;
+    dispatch(setFormData({ formData, isValid }));
+  }, [name, email, phone, address, dispatch]);
 
   return (
     <form>
@@ -71,7 +76,7 @@ const OrderForm = () => {
       </Label>
       <Input
         type="tel"
-        id="phene"
+        id="phone"
         name="phone"
         value={phone.value}
         onChange={(e) => phone.onChange(e)}
@@ -91,7 +96,7 @@ const OrderForm = () => {
         onBlur={() => address.onBlur()}
         required
       />
-      <Button type="submit">Submit order</Button>
+      <Button />
     </form>
   );
 };
