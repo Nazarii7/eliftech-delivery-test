@@ -2,7 +2,6 @@ import { Input, Label, Error } from "./OrderForm.styled";
 import Button from "../SubmitButton/SubmitButton";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useDispatch";
-import { setFormData } from "../../redux/reducers/fromReducer";
 import useInput from "../../hooks/useInput";
 
 const OrderForm = () => {
@@ -42,7 +41,7 @@ const OrderForm = () => {
       address: address.value || "",
     };
     const isValid = !email.isValid || !phone.isValid || !address.isValid;
-    dispatch(setFormData({ formData, isValid }));
+    dispatch({ formData, isValid });
   }, [name, email, phone, address, dispatch]);
 
   return (

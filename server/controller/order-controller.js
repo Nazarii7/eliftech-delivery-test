@@ -1,33 +1,33 @@
-const orderShema = require("../models/cart-model");
+const { Orders } = require("../models/index");
 
 class OrderController {
-  async createdOrder(req, res, next) {
+  async createdOrder(req, res) {
     try {
-      const order = req.body;
-      const newOrder = new orderShema(order);
-      const createdOrder = await newOrder.save();
-      return res.json(createdOrder);
+      const { customerInfo, cart, totalPrice } = req.body;
+      const newOrder = new Orders({
+        address: customerInfo.address,
+        email: customerInfo.email,
+        phone: customerInfo.phone,
+        name: customerInfo.name,
+        order: cart,
+        totalPrice,
+      });
+
+      await newOrder.save();
+
+      return res.json(newOrder);
     } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  }
-  async deleteOrder(req, res, next) {
-    try {
-      const id = req.params.id;
-      await orderShema.findByIdAndRemove(id);
-      return res.status(204).end();
-    } catch (error) {
-      next(error);
+      return res.status(500).json({ msg: error.message });
     }
   }
 
-  async getOrders(req, res, next) {
+  async getOrders(req, res) {
     try {
-      const orders = await orderShema.find({});
+      const orders = await Orders.find({});
+
       return res.json(orders);
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ msg: error.message });
     }
   }
 }
